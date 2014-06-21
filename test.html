@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		window.ondevicemotion = function(event) {
+			var c = document.getElementById('console');
+			c.innerHTML = event.accelerationIncludingGravity.x;
+		// event.accelerationIncludingGravity.y
+		// event.accelerationIncludingGravity.z
+		}
+	</script>
+</head>
+<body>
+	<div id='console'></div>
+</body>
+</html>
