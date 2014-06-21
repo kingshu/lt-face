@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Chat</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			var args = document.URL.split('?');
+			var settings = args[1].split('&');
+			
+			//setInterval(function(){
+			$('#getBtn').click(function(){
+				$.getJSON("http://ec2-23-22-135-101.compute-1.amazonaws.com/receiveGroupMessage?user="+settings[1]+"&pin="+settings[2]+"&userLang="+settings[3]+"&groupId="+settings[0], function(data) {
+					$('#allChats').html("");
+					for (var i in data.results) {
+						if (data.results[i].from == settings[1]) {
+							$('#allChats').prepend("<div class='msgDiv'><div class='inline selfmsg'><div class='msgMsg'>"+data.results[i].message+"</div></div><div class='inline'><img class='pic' src='images/"+data.results[i].from+".jpg'></div></div>");
+						}
+						else {
+							$('#allChats').prepend("<div class='msgDiv'><div class='inline'><img class='pic' src='images/"+data.results[i].from+".jpg'></div><div class='inline msg'><div class='msgMsg'>"+data.results[i].message+"</div></div></div>");
+						}
+
+					}
+				});
+			});
+			//},5000);
+			
+			$('#send').click(function(){
+				$.getJSON("http://ec2-23-22-135-101.compute-1.amazonaws.com/sendGroupMessage?groupId="+settings[0]+"&user="+settings[1]+"&pin="+settings[2]+"&sourceLang="+settings[3]+"&message="+$('#msg').val(), function(data){
+					$('#msg').val("");
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div id='allChats' class="chatWindow col-lg-4">
+		</div>
+		<input type='text' class='mainForm form-control' id='msg' placeholder='Type your message'>
+		<button id='send' class='btn btn-primary'>Send</button>
+		<button id='getBtn' class='btn btn-warning'>Get</button>
+	</div>
+</body>
+</html>
+

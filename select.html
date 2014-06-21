@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Group</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			var args = (document.URL.split('?')[1]).split('&');
+			$('#user').val(args[0]);
+			$('#pin').val(args[1]);
+			$('#lang').val(args[2]);
+			getUserDetails(3);
+		});
+		function getUserDetails(id) {
+			if (id>0) {
+				$.getJSON(
+					"http://ec2-23-22-135-101.compute-1.amazonaws.com/profile",
+					{ username:"demo_user"+id },
+					function (data) {
+						$('#users').append("<div class='user' id='demo_user"+id+"' isSelected='no'><img class='dp' src='images/demo_user"+id+".jpg'></div>");
+						getUserDetails(id-1);
+					}
+				);
+			}
+			else {	
+				$('.user').click(function(){
+					if ($(this).hasClass("selectedUser")) {
+						$(this).removeClass('selectedUser');
+					}
+					else {
+						$(this).addClass('selectedUser');
+					}
+				});
+				$('#createGroup').click(function(){
+					var people = [];
+					$('.selectedUser').each(function(index){
+						people.push( $(this).attr('id') );
+					});
+					var qString = 'people=' + people.join('&people=');
+					$.getJSON(
+						"http://ec2-23-22-135-101.compute-1.amazonaws.com/createGroup?"+people,
+						function (data) {
+							window.location.href= "chat.html?"+data.groupId+"&"+$('#user').val()+"&"+$('#pin').val()+"&"+$('#lang').val();
+					});
+				});
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="container col-lg-3">
+
+		<div id='users' class="row">
+			<div class='user' id='kingshu' isSelected='no'>
+				<img class='dp' src='images/kingshu.jpg'>
+			</div>
+			<div class='user' id='kmedhi' isSelected='no'>
+				<img class='dp' src='images/kmedhi.jpg'>
+			</div>
+			<div class='user' id='berry' isSelected='no'>
+				<img class='dp' src='images/berry.jpg'>
+			</div>
+		</div>
+		<div class="row">
+			<button id='createGroup' class='btn btn-primary fullBtn'>Create Group</button>
+		</div>
+	</div>
+	<div class="hidden">
+		<input type='text' id='user'>
+		<input type='text' id='pin'>
+		<input type='text' id='groupId'>
+		<input type='text' id='lang'>
+	</div>
+</body>
+</html>

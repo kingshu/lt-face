@@ -1,3 +1,76 @@
-.test {
+.hidden {
+	display: none;
+}
+
+.dp {
+	height: 150px;
+	width: 125px;
+}
+
+.user {
+	overflow: hidden;
+	border-radius: 5px;
+	display: inline-block;
+	margin: 4px 4px 4px 4px;
+	box-shadow: 3px 3px 2px 0px gray;
+}
+
+.selectedUser {
+	border: 3px solid #006bd6;
+}
+
+.fullBtn {
+	width: 100% !important;
+	display: inline-block;
+}
+
+.chatWindow {
+	height: 90%;
+	min-height: 400px;
 	border: 1px solid black;
+	overflow-y:scroll;
+}
+
+body,html {
+	width:100%;
+	height:100%;
+}
+
+.langselect {
+	position:absolute;
+}
+
+.mainForm {
+	margin-top: 20px;
+}
+
+.inline {
+	display: inline-block;
+	margin: 10px 10px 10px 10px;
+}
+
+.pic {
+	height: 60px;
+	width: 60px;
+	border-radius: 120px;
+}
+
+.msg {
+	border-radius: 5px;
+	background-color:#7DC6E3; 
+	color:white;
+	min-height: 40px;
+	width: 60% 
+}
+
+.msgMsg {
+	margin: 15px 15px 15px 15px;
+}
+
+.selfmsg {
+	border-radius: 5px;
+	background-color:#F2913D; 
+	color:white;
+	min-height: 40px;
+	width: 60% 
 }
